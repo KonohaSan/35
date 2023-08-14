@@ -6,9 +6,19 @@ TOKEN = 'MTE0MDMxMDQ5NDIwMTI0OTgxNA.GaygYb.GtiDdzWTx5VzA8xA_5cM5ohtvtUXbvtkLObdg
 
 client = discord.Client(intents=discord.Intents.all())
 
-@client.event
-async def on_ready():
-    print('logged in')
+# ホストのIPアドレスとポート番号
+host_ip = '0.0.0.0'  # すべてのインターフェースで待ち受け
+host_port = 46490
+
+# サーバーソケットを作成
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((host_ip, host_port))
+server_socket.listen(50)  # 最大50つの接続を待ち受け
+
+while True:
+    # クライアントからの接続を待ち受け
+    client_socket, client_address = server_socket.accept()
+    print('client accessed IP:', client_address[0], 'port:', client_address[1])
 
 @client.event
 async def on_message(message):
@@ -19,37 +29,12 @@ async def on_message(message):
         # Send the data to the client with the extracted IP address
         send_data_to_ip(ip_address)
 
-@client.event
-async def on_ready():
-    
-       # ホストのIPアドレスとポート番号
-        host_ip = '0.0.0.0'  # すべてのインターフェースで待ち受け
-        host_port = 46490
+print('Server built')
 
-        # サーバーソケットを作成
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.bind((host_ip, host_port))
-        server_socket.listen(50)  # 最大50つの接続を待ち受け
-
-        print('Server built')
-
-# Function to send data to a specified IP address
 def send_data_to_ip(ip_address):
-    try:
-        # Create a client socket and connect to the specified IP address
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        # Send the IP address as bytes
-        client_socket.send(ip_address.encode('utf-8'))
-
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        while True:
-            # クライアントからの接続を待ち受け
-            client_socket, client_address = server_socket.accept()
-            print('client accessed IP:', client_address[0], 'port:', client_address[1])
+    client_socket.send(ip_address('utf-8'))
     # クライアントにデータを送信
-            data_to_send = """09020000 13862EF0
+    data_to_send = """09020000 13862EF0
 00002000 00000000
 30000000 106E46E8
 10000000 50000000
@@ -101,12 +86,6 @@ D0000000 DEADCAFE
 0012089C 00000000
 001208A0 00000000
 D0000000 DEADCAFE"""
-        client_socket.send(data_to_send.encode('utf-8'))
-
-        # Close the client socket
-        client_socket.close()
-        print(f'IPに送信されるデータ:: {ip_address}')
-    except Exception as e:
-        print(f'IPへのデータ送信エラー: {ip_address}, Error: {str(e)}')
+    client_socket.send(data_to_send.encode('utf-8'))
 
 client.run(TOKEN)
