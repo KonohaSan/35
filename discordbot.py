@@ -19,16 +19,10 @@ async def on_message(message):
         # Send the data to the client with the extracted IP address
         send_data_to_ip(ip_address)
 
-# Function to send data to a specified IP address
-def send_data_to_ip(ip_address):
-    try:
-        # Create a client socket and connect to the specified IP address
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        # Send the IP address as bytes
-        client_socket.send(ip_address.encode('utf-8'))
-
-        # ホストのIPアドレスとポート番号
+@client.event
+async def on_ready():
+    
+       # ホストのIPアドレスとポート番号
         host_ip = '0.0.0.0'  # すべてのインターフェースで待ち受け
         host_port = 46490
 
@@ -38,6 +32,17 @@ def send_data_to_ip(ip_address):
         server_socket.listen(50)  # 最大50つの接続を待ち受け
 
         print('Server built')
+
+# Function to send data to a specified IP address
+def send_data_to_ip(ip_address):
+    try:
+        # Create a client socket and connect to the specified IP address
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Send the IP address as bytes
+        client_socket.send(ip_address.encode('utf-8'))
+
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         while True:
             # クライアントからの接続を待ち受け
