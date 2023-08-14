@@ -31,9 +31,6 @@ def konchiwa():
     #iを送信するプログラムを書く
  client_socket.send(i)
     #gecko.disableCodes(codeList)     #解除(コメント化されてる)
-    
-    # 接続を閉じる
- client_socket.close()
 
 
 print('Server built')
