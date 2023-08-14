@@ -2,32 +2,49 @@ import discord
 import socket
 import math
 
-TOKEN = 'ｖ' # TOKENを貼り付け
+TOKEN = 'MTE0MDMxMDQ5NDIwMTI0OTgxNA.GaygYb.GtiDdzWTx5VzA8xA_5cM5ohtvtUXbvtkLObdgM' # TOKENを貼り付け
 
 client = discord.Client(intents=discord.Intents.all())
 
 @client.event
 async def on_ready():
-    print('loggined')
+    print('logged in')
 
-# ホストのIPアドレスとポート番号
-host_ip = '0.0.0.0'  # すべてのインターフェースで待ち受け
-host_port = 46490
+@client.event
+async def on_message(message):
+    if message.content.startswith('!wiiu'):
+        # Extract the IP address from the command
+        ip_address = message.content.split(' ')[1]
+        await message.channel.send('IPアドレスを受け付けました。')
+        # Send the data to the client with the extracted IP address
+        send_data_to_ip(ip_address)
 
-# サーバーソケットを作成
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((host_ip, host_port))
-server_socket.listen(50)  # 最大50つの接続を待ち受け
+# Function to send data to a specified IP address
+def send_data_to_ip(ip_address):
+    try:
+        # Create a client socket and connect to the specified IP address
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-print('Server built')
+        # Send the IP address as bytes
+        client_socket.send(ip_address.encode('utf-8'))
 
-while True:
-    # クライアントからの接続を待ち受け
-    client_socket, client_address = server_socket.accept()
-    print('client accessed IP:', client_address[0], 'port:', client_address[1])
+        # ホストのIPアドレスとポート番号
+        host_ip = '0.0.0.0'  # すべてのインターフェースで待ち受け
+        host_port = 46490
 
+        # サーバーソケットを作成
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.bind((host_ip, host_port))
+        server_socket.listen(50)  # 最大50つの接続を待ち受け
+
+        print('Server built')
+
+        while True:
+            # クライアントからの接続を待ち受け
+            client_socket, client_address = server_socket.accept()
+            print('client accessed IP:', client_address[0], 'port:', client_address[1])
     # クライアントにデータを送信
-    data_to_send = """09020000 13862EF0
+            data_to_send = """09020000 13862EF0
 00002000 00000000
 30000000 106E46E8
 10000000 50000000
@@ -79,9 +96,12 @@ D0000000 DEADCAFE
 0012089C 00000000
 001208A0 00000000
 D0000000 DEADCAFE"""
-    client_socket.send(data_to_send.encode('utf-8'))
+        client_socket.send(data_to_send.encode('utf-8'))
 
-    # 接続を閉じる
-    client_socket.close()
+        # Close the client socket
+        client_socket.close()
+        print(f'IPに送信されるデータ:: {ip_address}')
+    except Exception as e:
+        print(f'IPへのデータ送信エラー: {ip_address}, Error: {str(e)}')
 
 client.run(TOKEN)
