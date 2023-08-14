@@ -2,7 +2,7 @@ import discord
 import socket
 import math
 
-TOKEN = 'MTE0MDMxMDQ5NDIwMTI0OTgxNA.GaygYb.GtiDdzWTx5VzA8xA_5cM5ohtvtUXbvtkLObdgM' # TOKENを貼り付け
+TOKEN = '' # TOKENを貼り付け
 
 client = discord.Client(intents=discord.Intents.all())
 
