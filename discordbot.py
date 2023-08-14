@@ -9,39 +9,32 @@ client = discord.Client(intents=discord.Intents.all())
 @client.event
 async def on_ready():
     print('ログインしました')
-
-# -*- coding : UTF-8 -*-
-
+    
 @client.event
 async def on_ready():
-    print('TCPサーバー接続')
-# ホスト鯖のIPアドレスとポート番号
-host_ip = "	118.27.16.228"
-port = 46490
+    print('接続')
+# ホストのIPアドレスとポート番号
+host_ip = '0.0.0.0'  # すべてのインターフェースで待ち受け
+host_port = 46490
 
-# ソケットの作成
+# サーバーソケットを作成
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((host_ip, host_port))
+server_socket.listen(5)  # 最大5つの接続を待ち受け
 
-# ソケットのバインド
-server_socket.bind((host_ip, port))
+print('サーバーが起動しました。')
 
-# 接続の待機
-server_socket.listen(1)
-print("ゲスト鯖からの接続を待機中...")
+while True:
+    # クライアントからの接続を待ち受け
+    client_socket, client_address = server_socket.accept()
+    print('クライアントが接続しました。IP:', client_address[0], 'ポート:', client_address[1])
 
-# 接続の受け入れ
-guest_socket, guest_address = server_socket.accept()
-print("ゲスト鯖と接続されました。")
+    # クライアントにデータを送信
+    data_to_send = 'Hello, client!'
+    client_socket.send(data_to_send.encode('utf-8'))
 
-# ゲスト鯖からのデータを受信
-data = guest_socket.recv(1024)
-
-# データの処理（WiiUへの送信など）
-# ...
-
-# ソケットを閉じる
-guest_socket.close()
-server_socket.close()
+    # 接続を閉じる
+    client_socket.close()
 
 @client.event
 async def on_message(message):
