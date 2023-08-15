@@ -1,4 +1,5 @@
 import socket
+import bot
 import math
 import pickle
 
