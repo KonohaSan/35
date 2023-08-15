@@ -3,7 +3,7 @@ import server
 import socket
 import math
 
-TOKEN = 'MTE0MDMxMDQ5NDIwMTI0OTgxNA.GidOpa.2wO6U9PveUiGReuA6Y_awjZgKD4Leq3e4QLzMo' # TOKENを貼り付け
+TOKEN = 'p' # TOKENを貼り付け
 
 client = discord.Client(intents=discord.Intents.all())
 
