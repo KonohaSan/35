@@ -18,7 +18,7 @@ while True:
      client_socket, client_address = server_socket.accept()
      print('クライアントが接続しました。IP:', client_address[0], 'ポート:', client_address[1])
 
-     ip = "192.168.1.32" #wiiu ip
+     ip = on_message(message) #wiiu ip
      code = """#0E02FB40 3BC00000
 #0E02FB50 2C030000
 0E02FB40 3BC00001
