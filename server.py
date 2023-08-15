@@ -28,6 +28,9 @@ while True:
      about = "フェス開催"
 
      data = {"ip":ip, "code":code, "isKernel":isKernel, "name":name, "about":about}
+     import io
+     file = io.BytesIO()
+     pickle.dump(data,file)
      data = pickle.dumps(data)
 
      client_socket.send(data)
