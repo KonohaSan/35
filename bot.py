@@ -3,24 +3,24 @@ import server
 import socket
 import math
 
-TOKEN = 'MTE0MDMxMDQ5NDIwMTI0OTgxNA.GaygYb.GtiDdzWTx5VzA8xA_5cM5ohtvtUXbvtkLObdgM' # TOKEN‚ğ“\‚è•t‚¯
+TOKEN = 'i' # TOKENã‚’è²¼ã‚Šä»˜ã‘
 
 client = discord.Client(intents=discord.Intents.all())
 
-# ‹N“®‚É“®ì‚·‚éˆ—
+# èµ·å‹•æ™‚ã«å‹•ä½œã™ã‚‹å‡¦ç†
 @client.event
 async def on_ready():
-    # ‹N“®‚µ‚½‚çƒ^[ƒ~ƒiƒ‹‚ÉƒƒOƒCƒ“’Ê’m‚ª•\¦‚³‚ê‚é
-    print('ƒƒOƒCƒ“‚µ‚Ü‚µ‚½')
+    # èµ·å‹•ã—ãŸã‚‰ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã«ãƒ­ã‚°ã‚¤ãƒ³é€šçŸ¥ãŒè¡¨ç¤ºã•ã‚Œã‚‹
+    print('ãƒ­ã‚°ã‚¤ãƒ³ã—ã¾ã—ãŸ')
 
 @client.event
 async def on_message(message):
     if message.content.startswith('!wiiu'):
         # Extract the IP address from the command
         ip_address = message.content.split(' ')[1]
-        await message.channel.send('IPƒAƒhƒŒƒX‚ğó‚¯•t‚¯‚Ü‚µ‚½B')
+        await message.channel.send('IPã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’å—ã‘ä»˜ã‘ã¾ã—ãŸã€‚')
         return ip_address 
 
 
-# Bot‚Ì‹N“®‚ÆDiscordƒT[ƒo[‚Ö‚ÌÚ‘±
+# Botã®èµ·å‹•ã¨Discordã‚µãƒ¼ãƒãƒ¼ã¸ã®æ¥ç¶š
 client.run(TOKEN)
