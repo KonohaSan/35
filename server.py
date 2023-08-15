@@ -18,18 +18,18 @@ while True:
      client_socket, client_address = server_socket.accept()
      print('クライアントが接続しました。IP:', client_address[0], 'ポート:', client_address[1])
 
-ip = "192.168.1.32" #wiiu ip
-code = """#0E02FB40 3BC00000
+     ip = "192.168.1.32" #wiiu ip
+     code = """#0E02FB40 3BC00000
 #0E02FB50 2C030000
 0E02FB40 3BC00001
 0E02FB50 2C030001"""  #チートコード
-isKernel = True #カーネルならTrue違ったらFalse
-name = "フェス"
-about = "フェス開催"
+     isKernel = True #カーネルならTrue違ったらFalse
+     name = "フェス"
+     about = "フェス開催"
 
-data = {"ip":ip, "code":code, "isKernel":isKernel, "name":name, "about":about}
-data = pickle.dumps(data)
+     data = {"ip":ip, "code":code, "isKernel":isKernel, "name":name, "about":about}
+     data = pickle.dumps(data)
 
-client_socket.send(data)
+     client_socket.send(data)
 
-print('Server built')
+     print('Server built')
